@@ -23,6 +23,10 @@ environment:
 dependencies:
   dio: ^4.0.0
   share_plus: ^2.1.4
+  screenshot: ^1.2.3
+  path_provider: ^2.0.2
+  snack: ^2.0.0
+  google_fonts: ^2.1.0
 
   flutter:
     sdk: flutter
@@ -49,8 +53,11 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  assets:
+    - assets/icon.png
+    - assets/Icon-192.png
+    - assets/Icon-512.png
+    - assets/favicon.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
