@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:daily_phrases/main_controller.dart';
+import 'package:daily_phrases/phrase_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -46,26 +47,28 @@ class _MyHomePageState extends State<MyHomePage> {
       SnackBar(content: Text('Não é possível compartilhar na versão web :('));
 
   var _phrase = "";
-  var _livro = "";
+  var _author = "";
   var _cardColor;
+  List<Phrase> listpPhrase = List.empty();
   MainController _mainController = MainController();
   ScreenshotController screenshotController = ScreenshotController();
 
   void _updatePhrase() async {
-    _mainController.getHttp().then((response) {
-      print('response: $response');
+    setState(() {
+      var w = new Random().nextInt(listpPhrase.length);
+      _phrase = listpPhrase[w].text.toString();
+      _author = listpPhrase[w].author.toString();
+    });
+    _changeColor();
+  }
+
+  _getList() async {
+    await _mainController.getHttp2().then((value) {
       setState(() {
-        _phrase = response.isNotEmpty
-            ? response.split(",")[1].replaceAll("frase:", "")
-            : "Carregando...";
-        _livro = response.isNotEmpty
-            ? response
-                .split(",")[3]
-                .replaceAll("livro", "Livro")
-                .replaceAll('autor', 'Livro')
-            : "Carregando...";
+        listpPhrase = value;
       });
-    }).whenComplete(() => _changeColor());
+    });
+    _updatePhrase();
   }
 
   _share() async {
@@ -95,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    _updatePhrase();
+    _getList();
     super.initState();
   }
 
@@ -129,36 +132,41 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Screenshot(
-                  controller: screenshotController,
-                  child: Card(
-                    elevation: 20,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Container(
-                      color: _cardColor,
-                      padding: EdgeInsets.all(32.0),
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                              width: 300,
-                              height: 200,
-                              child: Center(
-                                  child: Text(_phrase,
-                                      style: GoogleFonts.playfairDisplay(
-                                          fontSize: 20),
-                                      textAlign: TextAlign.center))),
-                          Text(
-                            _livro,
-                            style: GoogleFonts.playfairDisplay(fontSize: 15),
+                listpPhrase.length > 0
+                    ? Screenshot(
+                        controller: screenshotController,
+                        child: Card(
+                          elevation: 20,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(50),
                           ),
-                          //Text('Livro'),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+                          child: Container(
+                            color: _cardColor,
+                            padding: EdgeInsets.all(32.0),
+                            child: Column(
+                              children: <Widget>[
+                                SizedBox(
+                                    width: 300,
+                                    height: 200,
+                                    child: Center(
+                                        child: Text(_phrase,
+                                            style: GoogleFonts.playfairDisplay(
+                                                fontSize: 20),
+                                            textAlign: TextAlign.center))),
+                                Text(
+                                  _author,
+                                  style:
+                                      GoogleFonts.playfairDisplay(fontSize: 15),
+                                ),
+                                //Text('Livro'),
+                              ],
+                            ),
+                          ),
+                        ),
+                      )
+                    : CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                      )
               ],
             ),
           ),
