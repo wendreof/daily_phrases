@@ -9,10 +9,11 @@ class Phrase {
     author = json['author'];
   }
 
+  // ignore: public_member_api_docs
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['text'] = this.text;
-    data['author'] = this.author;
+    final data = <String, dynamic>{};
+    data['text'] = text;
+    data['author'] = author;
     return data;
   }
 }

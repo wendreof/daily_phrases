@@ -1,7 +1,8 @@
-import 'package:daily_phrases/main_repository.dart';
-import 'package:daily_phrases/phrase_model.dart';
+import 'main_repository.dart';
+import 'phrase_model.dart';
 
+// ignore: public_member_api_docs
 class MainController {
-  MainRepository _mainRepository = MainRepository();
+  final _mainRepository = MainRepository();
   Future<List<Phrase>> getHttp2() async => await _mainRepository.getHttp();
 }

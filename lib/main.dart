@@ -1,16 +1,17 @@
 import 'dart:io';
 import 'dart:math';
 
-import 'package:daily_phrases/main_controller.dart';
-import 'package:daily_phrases/phrase_model.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:snack/snack.dart';
-import 'package:google_fonts/google_fonts.dart';
+
+import 'main_controller.dart';
+import 'phrase_model.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,20 +22,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Frase Diária',
+      title: 'Daily Phrase',
       theme: ThemeData(
         primaryColor: Colors.blue,
         primaryColorDark: Colors.black,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Frase Diária'),
+      home: MyHomePage(title: 'Daily Phrase'),
       debugShowCheckedModeBanner: false,
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key? key, required this.title}) : super(key: key);
+  MyHomePage({required this.title, Key? key}) : super(key: key);
 
   final String title;
 
@@ -43,26 +44,25 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final bar =
-      SnackBar(content: Text('Não é possível compartilhar na versão web :('));
+  final bar = SnackBar(content: Text('Available only on web version :('));
 
-  var _phrase = "";
-  var _author = "";
+  var _phrase = '';
+  var _author = '';
   var _cardColor;
   List<Phrase> listpPhrase = List.empty();
-  MainController _mainController = MainController();
+  final MainController _mainController = MainController();
   ScreenshotController screenshotController = ScreenshotController();
 
   void _updatePhrase() async {
     setState(() {
-      var w = new Random().nextInt(listpPhrase.length);
+      final w = Random().nextInt(listpPhrase.length);
       _phrase = listpPhrase[w].text.toString();
       _author = listpPhrase[w].author.toString();
     });
     _changeColor();
   }
 
-  _getList() async {
+  void _getList() async {
     await _mainController.getHttp2().then((value) {
       setState(() {
         listpPhrase = value;
@@ -71,7 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _updatePhrase();
   }
 
-  _share() async {
+  void _share() async {
     if (kIsWeb) {
       bar.show(context);
     } else {
@@ -132,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                listpPhrase.length > 0
+                listpPhrase.isNotEmpty
                     ? Screenshot(
                         controller: screenshotController,
                         child: Card(
@@ -158,7 +158,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                   style:
                                       GoogleFonts.playfairDisplay(fontSize: 15),
                                 ),
-                                //Text('Livro'),
                               ],
                             ),
                           ),
@@ -175,7 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.blue,
         onPressed: _updatePhrase,
-        tooltip: 'Nova Frase',
+        tooltip: 'New Phrase',
         child: Icon(Icons.refresh),
       ),
     );

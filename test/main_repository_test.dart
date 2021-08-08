@@ -7,7 +7,7 @@ class DioMock extends Mock implements Dio {}
 
 void main() {
   // final dio = DioMock();
-  MainRepository _mainRepository = MainRepository();
+  final _mainRepository = MainRepository();
 
   test('Faz requisição http e retorna frase', () async {
     String response = await _mainRepository.getHttp();
