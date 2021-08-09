@@ -44,7 +44,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final bar = SnackBar(content: Text('Available only on web version :('));
+  final bar = SnackBar(content: Text('Not available on web version :('));
 
   var _phrase = '';
   var _author = '';
