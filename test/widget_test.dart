@@ -11,23 +11,23 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:daily_phrases/main.dart';
 
 void main() {
-  testWidgets('Clica no botão atualizar frase', (WidgetTester tester) async {
+  testWidgets('Tap on share and change color', (tester) async {
     await tester.runAsync(() async {
       // Build our app and trigger a frame.
-      await tester.pumpWidget(MyApp(), Duration(minutes: 1));
+      await tester.pumpWidget(MyApp(), Duration(seconds: 30));
 
-      await tester.pump(Duration(seconds: 3));
+      await tester.pump(Duration(seconds: 30));
 
-      expect(find.text('Frase Diária'), findsOneWidget);
-      expect(find.textContaining('flutter'), findsNothing);
+      expect(find.text('Daily Phrase'), findsOneWidget);
+      expect(find.textContaining('frase'), findsNothing);
 
-      await tester.tap(find.byIcon(Icons.refresh));
-      await tester.pump(Duration(minutes: 1));
+      await tester.tap(find.byIcon(Icons.color_lens));
+      await tester.tap(find.byIcon(Icons.share));
+      //await tester.tap(find.byTooltip('New Phrase'));
+      // await tester.pump(Duration(minutes: 1));
 
-      expect(find.text('Carregando...'), findsNothing);
-
-      expect(find.text('Frase Diária'), findsOneWidget);
-      expect(find.textContaining('flutter'), findsNothing);
+      expect(find.text('Daily Phrase'), findsOneWidget);
+      expect(find.textContaining('frase'), findsNothing);
     });
   });
 }

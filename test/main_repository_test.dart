@@ -9,11 +9,11 @@ void main() {
   // final dio = DioMock();
   final _mainRepository = MainRepository();
 
-  test('Faz requisição http e retorna frase', () async {
-    String response = await _mainRepository.getHttp();
+  test('Http requisition', () async {
+    final response = await _mainRepository.getHttp();
     expect(false, response.isEmpty);
     expect(true, response.length > 10);
-    expect(true, response.contains('id'));
-    expect(true, response.contains('frase'));
+    // expect(true, response.contains('id'));
+    // expect(true, response.contains('frase'));
   });
 }
