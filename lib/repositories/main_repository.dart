@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'phrase_model.dart';
+import '../models/phrase_model.dart';
 
 // ignore: public_member_api_docs
 class MainRepository {

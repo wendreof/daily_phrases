@@ -1,4 +1,4 @@
-import 'package:daily_phrases/main_repository.dart';
+import 'package:daily_phrases/repositories/main_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';

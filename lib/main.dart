@@ -6,38 +6,45 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snack/snack.dart';
 
-import 'main_controller.dart';
-import 'phrase_model.dart';
+import 'controllers/main_controller.dart';
+import 'models/phrase_model.dart';
+import 'utils/theme_manager.dart';
 
 void main() {
-  runApp(MyApp());
+  return runApp(ChangeNotifierProvider<ThemeNotifier>(
+    create: (_) => ThemeNotifier(),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Daily Phrase',
-      theme: ThemeData(
-        primaryColor: Colors.blue,
-        primaryColorDark: Colors.black,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return Consumer<ThemeNotifier>(
+      builder: (context, theme, child) => MaterialApp(
+        title: 'Daily Phrase',
+        theme: theme.getTheme(),
+        home: MyHomePage(title: 'Daily Phrase', theme: theme),
+        debugShowCheckedModeBanner: false,
       ),
-      home: MyHomePage(title: 'Daily Phrase'),
-      debugShowCheckedModeBanner: false,
     );
   }
 }
 
+// ignore: must_be_immutable
 class MyHomePage extends StatefulWidget {
-  MyHomePage({required this.title, Key? key}) : super(key: key);
+  MyHomePage({required this.title, required this.theme, Key? key})
+      : super(key: key);
 
   final String title;
+  dynamic theme;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -49,6 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
   var _phrase = '';
   var _author = '';
   var _cardColor;
+  var _iconTheme = 'light';
   List<Phrase> listpPhrase = List.empty();
   final MainController _mainController = MainController();
   ScreenshotController screenshotController = ScreenshotController();
@@ -100,6 +108,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     _getList();
     super.initState();
+    _getIconTheme().then((value) {
+      _iconTheme = value;
+    });
   }
 
   @override
@@ -121,7 +132,24 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.white,
             ),
             onPressed: _changeColor,
-          )
+          ),
+          IconButton(
+              icon: Icon(
+                _iconTheme == 'dark' ? Icons.wb_sunny : Icons.nightlight,
+                color: Colors.white,
+              ),
+              onPressed: () {
+                if (_iconTheme == 'light') {
+                  widget.theme.setDarkMode();
+                  _iconTheme = 'dark';
+                } else if (_iconTheme == 'dark') {
+                  widget.theme.setLightMode();
+                  _iconTheme = 'light';
+                } else {
+                  widget.theme.setDarkMode();
+                  _iconTheme = 'dark';
+                }
+              }),
         ],
       ),
       body: Center(
@@ -172,11 +200,24 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
+        backgroundColor: Theme.of(context).primaryColor,
         onPressed: _updatePhrase,
         tooltip: 'New Phrase',
-        child: Icon(Icons.refresh),
+        child: Icon(
+          Icons.refresh,
+          color: Theme.of(context).errorColor,
+        ),
       ),
     );
+  }
+
+  Future<String> _getIconTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    var themeMode = prefs.get('themeMode');
+    if (themeMode != null) {
+      return themeMode.toString();
+    } else {
+      return 'light';
+    }
   }
 }

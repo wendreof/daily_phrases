@@ -1,5 +1,5 @@
-import 'main_repository.dart';
-import 'phrase_model.dart';
+import '../models/phrase_model.dart';
+import '../repositories/main_repository.dart';
 
 // ignore: public_member_api_docs
 class MainController {

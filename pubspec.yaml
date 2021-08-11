@@ -17,6 +17,7 @@ dependencies:
   google_fonts: ^2.1.0
   flutter_translate: ^3.0.1
   shared_preferences: ^2.0.6
+  provider: ^5.0.0
 
   flutter:
     sdk: flutter
