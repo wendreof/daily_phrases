@@ -115,6 +115,31 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final card = Card(
+      elevation: 20,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(50),
+      ),
+      child: Container(
+        color: _cardColor,
+        padding: EdgeInsets.all(32.0),
+        child: Column(
+          children: <Widget>[
+            SizedBox(
+                width: 300,
+                height: 200,
+                child: Center(
+                    child: Text(_phrase,
+                        style: GoogleFonts.playfairDisplay(fontSize: 20),
+                        textAlign: TextAlign.center))),
+            Text(
+              _author,
+              style: GoogleFonts.playfairDisplay(fontSize: 15),
+            ),
+          ],
+        ),
+      ),
+    );
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title, style: TextStyle(color: Colors.white)),
@@ -125,13 +150,6 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.white,
             ),
             onPressed: _share,
-          ),
-          IconButton(
-            icon: Icon(
-              Icons.color_lens,
-              color: Colors.white,
-            ),
-            onPressed: _changeColor,
           ),
           IconButton(
               icon: Icon(
@@ -163,32 +181,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 listpPhrase.isNotEmpty
                     ? Screenshot(
                         controller: screenshotController,
-                        child: Card(
-                          elevation: 20,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                          child: Container(
-                            color: _cardColor,
-                            padding: EdgeInsets.all(32.0),
-                            child: Column(
-                              children: <Widget>[
-                                SizedBox(
-                                    width: 300,
-                                    height: 200,
-                                    child: Center(
-                                        child: Text(_phrase,
-                                            style: GoogleFonts.playfairDisplay(
-                                                fontSize: 20),
-                                            textAlign: TextAlign.center))),
-                                Text(
-                                  _author,
-                                  style:
-                                      GoogleFonts.playfairDisplay(fontSize: 15),
-                                ),
-                              ],
-                            ),
-                          ),
+                        child: GestureDetector(
+                          onTap: _changeColor,
+                          child: card,
                         ),
                       )
                     : CircularProgressIndicator(
@@ -213,7 +208,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<String> _getIconTheme() async {
     final prefs = await SharedPreferences.getInstance();
-    var themeMode = prefs.get('themeMode');
+    final themeMode = prefs.get('themeMode');
     if (themeMode != null) {
       return themeMode.toString();
     } else {
