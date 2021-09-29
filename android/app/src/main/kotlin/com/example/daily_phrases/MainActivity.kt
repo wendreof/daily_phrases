@@ -1,4 +1,4 @@
-package com.example.daily_phrases
+package br.com.wendreof.daily_phrases
 
 import io.flutter.embedding.android.FlutterActivity
 

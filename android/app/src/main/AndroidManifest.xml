@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.daily_phrases">
+    package="br.com.wendreof.daily_phrases">
    <application
         android:label="daily_phrases"
         android:icon="@mipmap/ic_launcher">

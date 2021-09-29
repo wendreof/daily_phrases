@@ -13,21 +13,47 @@ import 'package:daily_phrases/main.dart';
 void main() {
   testWidgets('Tap on share and change color', (tester) async {
     await tester.runAsync(() async {
-      // Build our app and trigger a frame.
-      await tester.pumpWidget(MyApp(), Duration(seconds: 30));
+      final Widget testWidget = MediaQuery(
+          data: MediaQueryData(),
+          child: MaterialApp(
+              home: MyHomePage(
+            title: 'Daily Phrase',
+            theme: 'light',
+          )));
 
-      await tester.pump(Duration(seconds: 30));
+      await tester.pumpWidget(testWidget, Duration(seconds: 30));
 
+      // Verify that title is corret
       expect(find.text('Daily Phrase'), findsOneWidget);
+      // Verify really there is not a text 1
+      expect(find.text('1'), findsNothing);
+      // Verify really there is not a text frase
+      expect(find.textContaining('frase'), findsNothing);
+    });
+  });
+
+  testWidgets('Tap on share', (tester) async {
+    await tester.runAsync(() async {
+      final Widget testWidget = MediaQuery(
+          data: MediaQueryData(),
+          child: MaterialApp(
+              home: MyHomePage(
+            title: 'Daily Phrase',
+            theme: 'dark',
+          )));
+
+      await tester.pumpWidget(testWidget, Duration(seconds: 60));
+
+      // Verify that title is corret
+      expect(find.text('Daily Phrase'), findsOneWidget);
+      // Verify really there is not a text 1
+      expect(find.text('1'), findsNothing);
+      // Verify really there is not a text frase
       expect(find.textContaining('frase'), findsNothing);
 
-      await tester.tap(find.byIcon(Icons.color_lens));
+      //Tap on update phrase
       await tester.tap(find.byIcon(Icons.share));
-      //await tester.tap(find.byTooltip('New Phrase'));
-      // await tester.pump(Duration(minutes: 1));
-
-      expect(find.text('Daily Phrase'), findsOneWidget);
-      expect(find.textContaining('frase'), findsNothing);
+      ;
     });
   });
 }

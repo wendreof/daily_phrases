@@ -1,12 +1,8 @@
 import 'package:daily_phrases/repositories/main_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
-
-class DioMock extends Mock implements Dio {}
 
 void main() {
-  // final dio = DioMock();
   final _mainRepository = MainRepository();
 
   test('Http requisition', () async {
