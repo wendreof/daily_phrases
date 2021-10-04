@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'store_manager.dart';
 
 // ignore: prefer_mixin
@@ -54,5 +55,15 @@ class ThemeNotifier with ChangeNotifier {
     _themeData = lightTheme;
     StorageManager.saveData('themeMode', 'light');
     notifyListeners();
+  }
+
+  Future<String> getIconTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+    final themeMode = prefs.get('themeMode');
+    if (themeMode != null) {
+      return themeMode.toString();
+    } else {
+      return 'light';
+    }
   }
 }

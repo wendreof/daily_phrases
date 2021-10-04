@@ -9,11 +9,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:screenshot/screenshot.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:snack/snack.dart';
 
 import 'controllers/main_controller.dart';
 import 'models/phrase_model.dart';
+import 'utils/size_config.dart';
 import 'utils/theme_manager.dart';
 
 void main() {
@@ -108,35 +108,42 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     _getList();
     super.initState();
-    _getIconTheme().then((value) {
+    ThemeNotifier().getIconTheme().then((value) {
       _iconTheme = value;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final card = Card(
-      elevation: 20,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(50),
-      ),
-      child: Container(
-        color: _cardColor,
-        padding: EdgeInsets.all(32.0),
-        child: Column(
-          children: <Widget>[
-            SizedBox(
-                width: 300,
-                height: 200,
-                child: Center(
-                    child: Text(_phrase,
-                        style: GoogleFonts.playfairDisplay(fontSize: 20),
-                        textAlign: TextAlign.center))),
-            Text(
-              _author,
-              style: GoogleFonts.playfairDisplay(fontSize: 15),
-            ),
-          ],
+    final sizeConfig = SizeConfig(mediaQueryData: MediaQuery.of(context));
+    final card = Expanded(
+      child: Card(
+        elevation: sizeConfig.dynamicScaleSize(size: 20),
+        shape: RoundedRectangleBorder(
+          // ignore: lines_longer_than_80_chars
+          borderRadius:
+              BorderRadius.circular(sizeConfig.dynamicScaleSize(size: 50)),
+        ),
+        child: Container(
+          color: _cardColor,
+          padding: EdgeInsets.all(sizeConfig.dynamicScaleSize(size: 15.0)),
+          child: Column(
+            children: <Widget>[
+              SizedBox(
+                  width: sizeConfig.dynamicScaleSize(size: 300),
+                  height: sizeConfig.dynamicScaleSize(size: 200),
+                  child: Center(
+                      child: Text(_phrase,
+                          style: GoogleFonts.playfairDisplay(
+                              fontSize: sizeConfig.dynamicScaleSize(size: 20)),
+                          textAlign: TextAlign.center))),
+              Text(
+                _author,
+                style: GoogleFonts.playfairDisplay(
+                    fontSize: sizeConfig.dynamicScaleSize(size: 15)),
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -170,26 +177,29 @@ class _MyHomePageState extends State<MyHomePage> {
               }),
         ],
       ),
-      body: Center(
-        child: Container(
-          padding: EdgeInsets.all(32.0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                listpPhrase.isNotEmpty
-                    ? Screenshot(
-                        controller: screenshotController,
-                        child: GestureDetector(
-                          onTap: _changeColor,
-                          child: card,
-                        ),
-                      )
-                    : CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
-                      )
-              ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.all(sizeConfig.dynamicScaleSize(size: 15.0)),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  listpPhrase.isNotEmpty
+                      ? Screenshot(
+                          controller: screenshotController,
+                          child: GestureDetector(
+                            onTap: _changeColor,
+                            child: card,
+                          ),
+                        )
+                      : CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.blue),
+                        )
+                ],
+              ),
             ),
           ),
         ),
@@ -204,15 +214,5 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
-  }
-
-  Future<String> _getIconTheme() async {
-    final prefs = await SharedPreferences.getInstance();
-    final themeMode = prefs.get('themeMode');
-    if (themeMode != null) {
-      return themeMode.toString();
-    } else {
-      return 'light';
-    }
   }
 }
