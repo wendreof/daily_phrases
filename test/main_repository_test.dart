@@ -1,5 +1,4 @@
 import 'package:daily_phrases/repositories/main_repository.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
