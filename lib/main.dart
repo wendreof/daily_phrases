@@ -121,8 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: sizeConfig.dynamicScaleSize(size: 20),
         shape: RoundedRectangleBorder(
           // ignore: lines_longer_than_80_chars
-          borderRadius:
-              BorderRadius.circular(sizeConfig.dynamicScaleSize(size: 50)),
+          borderRadius: BorderRadius.circular(50),
         ),
         child: Container(
           color: _cardColor,
@@ -130,8 +129,8 @@ class _MyHomePageState extends State<MyHomePage> {
           child: Column(
             children: <Widget>[
               SizedBox(
-                  width: sizeConfig.dynamicScaleSize(size: 300),
-                  height: sizeConfig.dynamicScaleSize(size: 200),
+                  width: 300,
+                  height: 200,
                   child: Center(
                       child: Text(_phrase,
                           style: GoogleFonts.playfairDisplay(
