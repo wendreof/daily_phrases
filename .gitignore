@@ -50,3 +50,6 @@ app.*.map.json
 *.aab
 *.properties
 *.jks
+
+# snap builds
+*.snap
