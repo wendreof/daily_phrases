@@ -13,6 +13,7 @@ import 'package:snack/snack.dart';
 
 import 'controllers/main_controller.dart';
 import 'models/phrase_model.dart';
+// ignore: unused_import
 import 'utils/size_config.dart';
 import 'utils/theme_manager.dart';
 
@@ -115,7 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final sizeConfig = SizeConfig(mediaQueryData: MediaQuery.of(context));
+    //final sizeConfig = SizeConfig(mediaQueryData: MediaQuery.of(context));
     final card = Expanded(
       child: Card(
         elevation: 20,
@@ -138,8 +139,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           textAlign: TextAlign.center))),
               Text(
                 _author,
-                style: GoogleFonts.playfairDisplay(
-                    fontSize: sizeConfig.dynamicScaleSize(size: 15)),
+                style: GoogleFonts.playfairDisplay(fontSize: 15),
               ),
             ],
           ),
@@ -178,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(sizeConfig.dynamicScaleSize(size: 15.0)),
+          padding: EdgeInsets.all(15.0),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
