@@ -118,14 +118,15 @@ class _MyHomePageState extends State<MyHomePage> {
     final sizeConfig = SizeConfig(mediaQueryData: MediaQuery.of(context));
     final card = Expanded(
       child: Card(
-        elevation: sizeConfig.dynamicScaleSize(size: 20),
+        elevation: 20,
+        // elevation: sizeConfig.dynamicScaleSize(size: 20),
         shape: RoundedRectangleBorder(
           // ignore: lines_longer_than_80_chars
           borderRadius: BorderRadius.circular(50),
         ),
         child: Container(
           color: _cardColor,
-          padding: EdgeInsets.all(sizeConfig.dynamicScaleSize(size: 15.0)),
+          padding: EdgeInsets.all(15.0),
           child: Column(
             children: <Widget>[
               SizedBox(
@@ -133,8 +134,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   height: 200,
                   child: Center(
                       child: Text(_phrase,
-                          style: GoogleFonts.playfairDisplay(
-                              fontSize: sizeConfig.dynamicScaleSize(size: 20)),
+                          style: GoogleFonts.playfairDisplay(fontSize: 20),
                           textAlign: TextAlign.center))),
               Text(
                 _author,
@@ -176,29 +176,26 @@ class _MyHomePageState extends State<MyHomePage> {
               }),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Container(
-            padding: EdgeInsets.all(sizeConfig.dynamicScaleSize(size: 15.0)),
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  listpPhrase.isNotEmpty
-                      ? Screenshot(
-                          controller: screenshotController,
-                          child: GestureDetector(
-                            onTap: _changeColor,
-                            child: card,
-                          ),
-                        )
-                      : CircularProgressIndicator(
-                          valueColor:
-                              AlwaysStoppedAnimation<Color>(Colors.blue),
-                        )
-                ],
-              ),
+      body: Center(
+        child: Container(
+          padding: EdgeInsets.all(sizeConfig.dynamicScaleSize(size: 15.0)),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                listpPhrase.isNotEmpty
+                    ? Screenshot(
+                        controller: screenshotController,
+                        child: GestureDetector(
+                          onTap: _changeColor,
+                          child: card,
+                        ),
+                      )
+                    : CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                      )
+              ],
             ),
           ),
         ),

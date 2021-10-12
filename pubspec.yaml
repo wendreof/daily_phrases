@@ -25,10 +25,16 @@ dependencies:
   cupertino_icons: ^1.0.2
 
 dev_dependencies:
+  cider: ^0.1.0
   effective_dart: ^1.3.2
   mocktail: ^0.0.1-dev.11
   flutter_test:
     sdk: flutter
+
+cider:
+  link_template:
+    tag: https://github.com/wendreof/daily_phrases/releases/tag/%tag% # initial release link template
+    diff: https://github.com/wendreof/daily_phrases/compare/%from%...%to% # subsequent releases link template
 
 flutter:
   uses-material-design: true
