@@ -15,7 +15,7 @@ env:
 
 jobs:
   flutter_test:
-    name: Analyze & format & test
+    name: Analyze & format & testing
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
