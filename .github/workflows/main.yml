@@ -39,7 +39,12 @@ jobs:
           name: test-results
           path: test-results.json
           reporter: flutter-json
-      - uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+      # - uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     min_coverage: 0
+      - uses: codecov/codecov-action@v2
         with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          min_coverage: 0
+          token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
+          files: ./coverage/lcov.info # optional
+
